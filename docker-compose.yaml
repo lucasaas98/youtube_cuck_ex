@@ -1,14 +1,55 @@
 version: "3.9"
 services:
-  postgres:
+  cuck_postgres:
     image: postgres:14-alpine
     container_name: cuck_postgres
-    restart: always
+    restart: unless-stopped
     ports:
       - 5432:5432
     expose:
       - 5432
     volumes:
-      - ./docker/data/postgres:/var/lib/postgres/data
+      - $PROJECT_PATH/postgres:/var/lib/postgres/data
     environment:
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: $PROJECT_DB
+    networks:
+      - cuck
+
+  cuck_elixir:
+    container_name: cuck_elixir
+    restart: unless-stopped
+    build:
+      context: ./youtube_cuck
+      args:
+        - DATABASE_URL=ecto://postgres:postgres@cuck_postgres/$PROJECT_DB
+    ports:
+      - 4000:4000
+    expose:
+      - 4000
+    volumes:
+      - $PROJECT_PATH/data:/data
+    networks:
+      - cuck
+    depends_on:
+      - cuck_postgres
+
+  cuck_nginx:
+    container_name: cuck_nginx
+    restart: unless-stopped
+    build: ./file_server
+    ports:
+      - 55055:80
+    expose:
+      - 80
+    volumes:
+      - $PROJECT_PATH/data:/data
+    networks:
+      - cuck
+    depends_on:
+      - cuck_postgres
+      - cuck_elixir
+
+networks:
+  cuck:
+    driver: "bridge"

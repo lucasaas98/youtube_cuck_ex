@@ -5,7 +5,7 @@ config :youtube_cuck, YoutubeCuck.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "youtube_cuck_dev",
+  database: "youtube_cuck",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
