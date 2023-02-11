@@ -10,6 +10,9 @@ import Config
 config :youtube_cuck,
   ecto_repos: [YoutubeCuck.Repo]
 
+config :youtube_cuck,
+  root_folder: ""
+
 # Configures the endpoint
 config :youtube_cuck, YoutubeCuckWeb.Endpoint,
   url: [host: "localhost"],
@@ -19,8 +22,16 @@ config :youtube_cuck, YoutubeCuckWeb.Endpoint,
 
 config :youtube_cuck, Oban,
   repo: YoutubeCuck.Repo,
-  plugins: [Oban.Plugins.Pruner, {Oban.Plugins.Gossip, interval: :timer.seconds(5)}],
-  queues: [default: 10]
+  plugins: [
+    {Oban.Plugins.Pruner, max_age: 2_592_000},
+    {Oban.Plugins.Gossip, interval: :timer.seconds(5)},
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"30 4 * * *", YoutubeCuck.Workers.DeleteOldVideosWorker},
+       {"30 5 * * *", YoutubeCuck.Workers.CheckForMissingVideos}
+     ]}
+  ],
+  queues: [default: 3]
 
 # Configure esbuild (the version is required)
 config :esbuild,
