@@ -5,6 +5,8 @@ defmodule YoutubeCuck.Application do
 
   use Application
 
+  alias YoutubeCuck.WorkerErrorHandler
+
   @impl true
   def start(_type, _args) do
     children = [
@@ -20,6 +22,13 @@ defmodule YoutubeCuck.Application do
       # Start a worker by calling: YoutubeCuck.Worker.start_link(arg)
       # {YoutubeCuck.Worker, arg}
     ]
+
+    :telemetry.attach(
+      "oban-errors",
+      [:oban, :job, :exception],
+      &WorkerErrorHandler.handle_event/4,
+      nil
+    )
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

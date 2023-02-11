@@ -5,7 +5,7 @@ defmodule YoutubeCuck.MixProject do
     [
       app: :youtube_cuck,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -20,7 +20,7 @@ defmodule YoutubeCuck.MixProject do
   def application do
     [
       mod: {YoutubeCuck.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :elixir_xml_to_map]
     ]
   end
 
@@ -43,13 +43,17 @@ defmodule YoutubeCuck.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:telemetry, "~> 1.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:oban, "~> 2.13"},
+      {:oban, "~> 2.14"},
       {:scrivener_ecto, "~> 2.7"},
-      {:ecto_enum, "~> 1.4"}
+      {:ecto_enum, "~> 1.4"},
+      {:httpoison, "~> 2.0"},
+      {:poison, "~> 5.0"},
+      {:elixir_xml_to_map, "~> 3.0"}
     ]
   end
 

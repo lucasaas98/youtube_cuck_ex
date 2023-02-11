@@ -37,7 +37,7 @@ RUN mix do compile, release
 # prepare release image
 FROM alpine:latest AS app
 
-RUN apk add --no-cache openssl libstdc++ ncurses-libs ffmpeg bash python3 py3-pip git gcc musl-dev
+RUN apk add --no-cache openssl libstdc++ ncurses-libs ffmpeg bash python3 py3-pip git gcc musl-dev rust
 
 RUN python3 -m pip install --upgrade git+https://github.com/yt-dlp/yt-dlp.git@release
 

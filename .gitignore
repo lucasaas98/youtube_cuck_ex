@@ -8,3 +8,5 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
+youtube_cuck/lib/youtube_cuck/workers/formatter.ex
+.vscode/settings.json
