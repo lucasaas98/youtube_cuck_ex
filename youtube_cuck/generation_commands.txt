@@ -1,0 +1,9 @@
+mix phx.gen.json Cuck Video video title:string url:string:unique views:integer description:string status:enum:regular:livestream:short:premiere
+
+
+mix phx.gen.json Cuck Channel channel title:string external_id:string subscriber_count:integer 
+
+mix phx.gen.json Cuck Playlist playlist title:string external_id:string subscriber_count:integer
+
+mix phx.gen.json Cuck VideoFile video_file video_path:string video_id:references:video 
+mix phx.gen.json Cuck ThumbnailFile thumbnail_file thumbnail_path:string video_id:references:video 

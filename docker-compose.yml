@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cuck_postgres
+    restart: always
+    ports:
+      - 5431:5432
+    expose:
+      - 5431
+    volumes:
+      - ./docker_persistent_data/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
